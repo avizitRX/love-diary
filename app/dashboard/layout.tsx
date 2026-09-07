@@ -8,7 +8,6 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       <AppSidebar />
       <SidebarInset>
         <main>
-          {/* <SidebarTrigger className={"block lg:hidden"} /> */}
           <div className="block lg:hidden">
             <CustomTrigger />
           </div>
