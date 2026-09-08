@@ -1,7 +1,5 @@
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { Gift } from 'lucide-react';
-import React from 'react'
 
 const BottomCtaCard = () => {
   return (
@@ -18,7 +16,7 @@ const BottomCtaCard = () => {
         <div className="flex shrink-0 items-center gap-4">
           <Button size="sm">Explore Ideas</Button>
 
-          <Gift className="hidden size-12 text-primary/50 sm:block" />
+          {/* <Gift className="hidden size-12 text-primary/50 sm:block" /> */}
         </div>
       </CardContent>
     </Card>

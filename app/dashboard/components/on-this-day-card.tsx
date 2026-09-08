@@ -1,6 +1,5 @@
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Calendar, Ellipsis } from 'lucide-react';
 import React from 'react'
 
 const OnThisDayCard = () => {
@@ -8,13 +7,9 @@ const OnThisDayCard = () => {
     <Card>
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-3">
         <CardTitle className="flex items-center gap-2 text-sm">
-          <Calendar className="size-4 text-primary" />
+          {/* <Calendar className="size-4 text-primary" /> */}
           On This Day
         </CardTitle>
-
-        <Button variant="ghost" size="icon">
-          <Ellipsis className="size-4" />
-        </Button>
       </CardHeader>
 
       <CardContent>
@@ -53,4 +48,4 @@ const OnThisDayCard = () => {
   );
 }
 
-export default OnThisDayCard
+export default OnThisDayCard;

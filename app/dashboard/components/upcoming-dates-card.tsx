@@ -1,16 +1,18 @@
 import { Button } from '@/components/ui/button';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
-import { Heart, Gift, CalendarHeart, ChevronRight } from 'lucide-react';
+import { Heart, Gift, CalendarHeart } from 'lucide-react';
 import React from 'react'
 
 const UpcomingDatesCard = () => {
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="text-sm">Upcoming Dates</CardTitle>
+        <CardTitle className="text-sm">
+          Upcoming Dates
+        </CardTitle>
       </CardHeader>
 
-      <CardContent className="space-y-4">
+      <CardContent className="space-y-6">
         <UpcomingDate
           icon={<Heart />}
           title="Our Anniversary"
@@ -32,10 +34,11 @@ const UpcomingDatesCard = () => {
           remaining="36 days"
         />
 
-        <Button variant="link" className="h-auto p-0 text-xs">
+        {/* <Button variant="link" className="h-auto p-0 text-xs">
           View All Dates
           <ChevronRight className="ml-1 size-3" />
-        </Button>
+        </Button> */}
+        <Button variant="secondary" size="sm">View All Dates</Button>
       </CardContent>
     </Card>
   );
@@ -54,17 +57,17 @@ function UpcomingDate({
 }) {
   return (
     <div className="flex items-center gap-3">
-      <div className="flex size-8 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary [&>svg]:size-4">
+      <div className="flex size-10 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary [&>svg]:size-4">
         {icon}
       </div>
 
       <div className="min-w-0 flex-1">
-        <p className="truncate text-xs font-semibold">{title}</p>
+        <p className="truncate text-base font-semibold">{title}</p>
 
-        <p className="mt-0.5 text-[11px] text-muted-foreground">{date}</p>
+        <p className="mt-0.5 text-[13px] text-muted-foreground">{date}</p>
       </div>
 
-      <span className="text-[11px] font-medium text-muted-foreground">
+      <span className="text-[13px] font-medium text-muted-foreground">
         {remaining}
       </span>
     </div>

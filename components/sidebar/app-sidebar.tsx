@@ -1,3 +1,5 @@
+'use client';
+
 import {
   CalendarHeart,
   Heart,
@@ -11,6 +13,8 @@ import {
   Clock3,
   UserRoundPen,
   MoreHorizontal,
+  Bell,
+  Plus,
 } from "lucide-react";
 
 import {
@@ -26,6 +30,7 @@ import { Button } from "../ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 const menuItems = [
   {
@@ -52,11 +57,17 @@ const menuItems = [
     label: "Private Notes",
     icon: NotebookPen,
   },
+  {
+    label: "Notifications",
+    icon: Bell,
+  },
 ];
 
 export function AppSidebar() {
+  const isMobile = useIsMobile();
+
   return (
-    <Sidebar variant="inset">
+    <Sidebar variant="inset" side={isMobile ? "right" : "left"}>
       {/* Header */}
       <SidebarHeader>
         <div className="flex items-center gap-2 px-2 py-3">
@@ -97,6 +108,11 @@ export function AppSidebar() {
 
       {/* Profile */}
       <SidebarFooter>
+        <Button variant={"outline"} size="lg" className="gap-2">
+          <Plus className="size-5" />
+          Add New
+        </Button>
+        
         <SidebarMenu>
           <SidebarMenuItem>
             <Popover>

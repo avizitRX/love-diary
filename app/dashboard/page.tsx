@@ -35,16 +35,10 @@ export default function Dashboard() {
             SECOND ROW
         ========================================================= */}
         <section className="mt-4 grid gap-4 lg:grid-cols-2">
-          <OnThisDayCard />
-          <QuickActionsCard />
-        </section>
-
-        {/* =========================================================
-            THIRD ROW
-        ========================================================= */}
-        <section className="mt-4 grid gap-4 lg:grid-cols-2">
           <UpcomingDatesCard />
-          <RecentMemoriesCard />
+          <OnThisDayCard />
+          {/* <QuickActionsCard /> */}
+          {/* <RecentMemoriesCard /> */}
         </section>
 
         {/* =========================================================
