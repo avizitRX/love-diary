@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Check, Copy, Heart, Loader2, QrCode } from "lucide-react";
+import { Check, Copy, Heart, Loader2, LogOut, QrCode } from "lucide-react";
 import { QRCodeSVG } from "qrcode.react";
 
 import { Button } from "@/components/ui/button";
@@ -14,11 +14,15 @@ import {
 } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { createInvite } from "@/app/dashboard/(onboarding)/onboarding/actions";
+import Logo from "../branding/logo";
+import { logout } from "@/app/(auth)/login/actions";
 
 export function OnboardingInvite() {
   const [inviteUrl, setInviteUrl] = useState<string | null>(null);
   const [copied, setCopied] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [isLoggingOut, setIsLoggingOut] = useState(false);
+  const [logoutError, setLogoutError] = useState<string | null>(null);
 
   async function handleCreateInvite() {
     try {
@@ -26,7 +30,7 @@ export function OnboardingInvite() {
 
       const result = await createInvite();
 
-      if (!result.success) {
+      if (!result.success || result.url == null) {
         throw new Error(result.error);
       }
 
@@ -50,9 +54,34 @@ export function OnboardingInvite() {
     }, 2000);
   }
 
+  const handleLogout = async () => {
+    try {
+      setIsLoggingOut(true);
+      setLogoutError(null);
+      await logout();
+    } catch (err: unknown) {
+      if (
+        typeof err === "object" &&
+        err !== null &&
+        "message" in err &&
+        typeof (err as { message: unknown }).message === "string" &&
+        ((err as { message: string }).message.includes("NEXT_REDIRECT") ||
+          (err as { message: string }).message.includes("NEXT_NOT_FOUND"))
+      ) {
+        return;
+      }
+      setLogoutError("Failed to log out. Please try again.");
+      setIsLoggingOut(false);
+    }
+  };
+
   return (
-    <main className="flex min-h-svh items-center justify-center p-6">
-      <div className="w-full max-w-lg">
+    <main className="flex min-h-svh flex-col items-center justify-between p-6">
+      <div className="flex w-full justify-center pt-2">
+        <Logo />
+      </div>
+
+      <div className="w-full max-w-lg my-auto py-8">
         <div className="mb-8 text-center">
           <div className="bg-primary text-primary-foreground mx-auto mb-4 flex size-12 items-center justify-center rounded-full">
             <Heart className="size-6" />
@@ -73,7 +102,8 @@ export function OnboardingInvite() {
             <CardTitle>Invite your partner</CardTitle>
 
             <CardDescription>
-              They can join by scanning <strong>QR code</strong> or opening your <strong>invitation link.</strong>
+              They can join by scanning <strong>QR code</strong> or opening your{" "}
+              <strong>invitation link.</strong>
             </CardDescription>
           </CardHeader>
 
@@ -171,6 +201,26 @@ export function OnboardingInvite() {
           </CardContent>
         </Card>
       </div>
+
+      <div className="flex w-full max-w-lg flex-col items-center pb-2">
+        {logoutError && (
+          <p className="px-2 pb-2 text-xs text-destructive">{logoutError}</p>
+        )}
+
+        <Button
+          variant="ghost"
+          onClick={handleLogout}
+          disabled={isLoggingOut}
+          className="gap-2 text-muted-foreground hover:text-foreground"
+        >
+          {isLoggingOut ? (
+            <Loader2 className="size-4 animate-spin" />
+          ) : (
+            <LogOut className="size-4" />
+          )}
+          {isLoggingOut ? "Logging out..." : "Logout"}
+        </Button>
+      </div>
     </main>
   );
-};
+}
