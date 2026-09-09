@@ -1,23 +1,9 @@
-import { createClient } from "@/utils/supabase/server";
-import { cookies } from "next/headers";
-
-export default async function HomePage() {
-  const cookieStore = await cookies();
-  const supabase = createClient(cookieStore);
-
-  const { data: todos } = await supabase.from("todos").select();
-
-  console.log("todos", todos);
-
+const HomePage = () => {
   return (
-    <>
-      <h1>Hello, World</h1>
-
-      <ul>
-        {todos?.map((todo) => (
-          <li key={todo.id}>{todo.name}</li>
-        ))}
-      </ul>
-    </>
-  );
+    <div>
+      Hello, World!
+    </div>
+  )
 }
+
+export default HomePage
