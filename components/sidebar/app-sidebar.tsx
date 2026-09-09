@@ -57,10 +57,6 @@ const menuItems = [
     label: "Private Notes",
     icon: NotebookPen,
   },
-  {
-    label: "Notifications",
-    icon: Bell,
-  },
 ];
 
 export function AppSidebar() {
@@ -103,16 +99,27 @@ export function AppSidebar() {
               </SidebarMenuItem>
             );
           })}
+
+          <SidebarMenuItem key="notifications" className="block md:hidden">
+            <Button
+              variant= "ghost"
+              size="lg"
+              className="w-full justify-start gap-3 px-3 text-left"
+            >
+              <Bell className="size-5 shrink-0" />
+              <span>Notifications</span>
+            </Button>
+          </SidebarMenuItem>
         </SidebarMenu>
       </SidebarContent>
 
       {/* Profile */}
       <SidebarFooter>
-        <Button variant={"outline"} size="lg" className="gap-2">
+        <Button variant={"outline"} size="lg" className="gap-2 md:hidden">
           <Plus className="size-5" />
           Add New
         </Button>
-        
+
         <SidebarMenu>
           <SidebarMenuItem>
             <Popover>

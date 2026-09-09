@@ -17,7 +17,7 @@ const TopBar = () => {
 
               <div>
                 <h1 className="font-semibold leading-none">Love Diary</h1>
-                <p className="mt-1 text-xs text-muted-foreground">
+                <p className="mt-1 text-xs text-muted-foreground font-medium">
                   Our story, together ♡
                 </p>
               </div>
