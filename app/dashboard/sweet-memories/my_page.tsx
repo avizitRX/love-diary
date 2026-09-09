@@ -1,4 +1,4 @@
-import SweetMemoriesPageTopbar from './components/sweet-memories-page-topbar';
+import SweetMemoriesPageTopbar from '../../../components/sweet-memories/sweet-memories-page-topbar';
 
 const SweetMemoriesPage = () => {
   return (

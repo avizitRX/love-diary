@@ -1,9 +1,9 @@
-import DaysTogetherCard from "./components/days-together-card";
-import ImportantDateCard from "./components/important-date-card";
-import MessageCard from "./components/message-card";
-import OnThisDayCard from "./components/on-this-day-card";
-import UpcomingDatesCard from "./components/upcoming-dates-card";
-import BottomCtaCard from "./components/bottom-cta-card";
+import DaysTogetherCard from "../../../components/our-little-world/days-together-card";
+import ImportantDateCard from "../../../components/our-little-world/important-date-card";
+import MessageCard from "../../../components/our-little-world/message-card";
+import OnThisDayCard from "../../../components/our-little-world/on-this-day-card";
+import UpcomingDatesCard from "../../../components/our-little-world/upcoming-dates-card";
+import BottomCtaCard from "../../../components/our-little-world/bottom-cta-card";
 import { Button } from "@/components/ui/button";
 import { Bell, Plus } from "lucide-react";
 import { Badge } from "@/components/ui/badge";

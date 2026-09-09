@@ -1,6 +1,6 @@
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/sidebar/app-sidebar";
-import TopBar from "./our-little-world/components/top-bar";
+import TopBar from "../../components/our-little-world/top-bar";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
