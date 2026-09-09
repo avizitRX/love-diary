@@ -5,6 +5,7 @@ import { z } from "zod";
 
 import { createClient } from "@/lib/supabase/server";
 
+// Login
 const loginSchema = z.object({
   email: z.string().trim().email("Please enter a valid email address."),
 
@@ -69,4 +70,12 @@ export async function login(formData: FormData) {
   }
 
   redirect(redirectPath);
+}
+
+// Logout
+export async function logout() {
+  const supabase = await createClient();
+  await supabase.auth.signOut();
+  
+  redirect("/login");
 }

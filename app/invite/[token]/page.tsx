@@ -43,7 +43,6 @@ export default async function InvitationPage({
   );
 
   if (error) {
-    console.error("get_couple_invitation:", error);
     notFound();
   }
 

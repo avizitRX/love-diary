@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import {
   CalendarHeart,
   Heart,
@@ -16,6 +17,8 @@ import {
   Bell,
   Plus,
   type LucideIcon,
+  LogOut,
+  Loader2,
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -36,6 +39,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { logout } from "@/app/(auth)/login/actions";
 
 interface MenuItem {
   label: string;
@@ -87,6 +91,29 @@ const profileActions = [
 export function AppSidebar() {
   const isMobile = useIsMobile();
   const pathname = usePathname();
+  const [isLoggingOut, setIsLoggingOut] = useState(false);
+  const [logoutError, setLogoutError] = useState<string | null>(null);
+
+  const handleLogout = async () => {
+    try {
+      setIsLoggingOut(true);
+      setLogoutError(null);
+      await logout();
+    } catch (err: unknown) {
+      if (
+        typeof err === "object" &&
+        err !== null &&
+        "message" in err &&
+        typeof (err as { message: unknown }).message === "string" &&
+        ((err as { message: string }).message.includes("NEXT_REDIRECT") ||
+          (err as { message: string }).message.includes("NEXT_NOT_FOUND"))
+      ) {
+        return;
+      }
+      setLogoutError("Failed to log out. Please try again.");
+      setIsLoggingOut(false);
+    }
+  };
 
   return (
     <Sidebar variant="inset" side={isMobile ? "right" : "left"}>
@@ -198,6 +225,26 @@ export function AppSidebar() {
                       </Button>
                     );
                   })}
+
+                  <Button
+                    variant="ghost"
+                    onClick={handleLogout}
+                    disabled={isLoggingOut}
+                    className="w-full justify-start gap-3 text-primary hover:text-primary"
+                  >
+                    {isLoggingOut ? (
+                      <Loader2 className="size-4 animate-spin" />
+                    ) : (
+                      <LogOut className="size-4" />
+                    )}
+                    {isLoggingOut ? "Logging out..." : "Logout"}
+                  </Button>
+
+                  {logoutError && (
+                    <p className="px-2 pt-1 text-xs text-destructive">
+                      {logoutError}
+                    </p>
+                  )}
                 </div>
               </PopoverContent>
             </Popover>
