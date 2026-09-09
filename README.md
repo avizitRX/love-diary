@@ -23,4 +23,5 @@ This project uses [`next/font`](https://nextjs.org/docs/app/building-your-applic
 ## shadcn UI Template
 
 Preset: b51FfLhdT
+
 Present Apply Command: `pnpm dlx shadcn@latest apply --preset b51FfLhdT`

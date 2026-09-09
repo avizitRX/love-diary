@@ -55,17 +55,6 @@ const TopBar = () => {
           </div>
         </div>
       </header>
-
-      {/* Hero Header */}
-      <div className="mb-6">
-        <h1 className="text-2xl font-bold tracking-tight md:text-3xl">
-          Good morning, Alex ❤️
-        </h1>
-
-        <p className="mt-1 text-sm text-muted-foreground">
-          Cherish every moment together.
-        </p>
-      </div>
     </div>
   );
 };
