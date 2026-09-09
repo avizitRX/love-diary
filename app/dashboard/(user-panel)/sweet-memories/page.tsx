@@ -7,9 +7,9 @@ import { Button } from "@/components/ui/button";
 
 import { createClient } from "@/lib/supabase/server";
 import { getMemories } from "@/lib/memories/queries";
-import { MemorySearch } from "../../../components/sweet-memories/memory-search";
-import { MemoryGrid } from "../../../components/sweet-memories/memory-grid";
-import { MemoryPagination } from "../../../components/sweet-memories/memory-pagination";
+import { MemorySearch } from "../../../../components/sweet-memories/memory-search";
+import { MemoryGrid } from "../../../../components/sweet-memories/memory-grid";
+import { MemoryPagination } from "../../../../components/sweet-memories/memory-pagination";
 
 interface MemoriesPageProps {
   searchParams: Promise<{

@@ -6,31 +6,50 @@ import { z } from "zod";
 import { createClient } from "@/lib/supabase/server";
 
 const loginSchema = z.object({
-  email: z
-    .string()
-    .trim()
-    .email("Please enter a valid email address."),
+  email: z.string().trim().email("Please enter a valid email address."),
 
-  password: z
-    .string()
-    .min(1, "Please enter your password."),
+  password: z.string().min(1, "Please enter your password."),
+
+  next: z.string().optional(),
 });
+
+function getSafeRedirectPath(next: string | undefined) {
+  if (!next) {
+    return "/dashboard";
+  }
+
+  // Only allow internal paths.
+  if (!next.startsWith("/") || next.startsWith("//")) {
+    return "/dashboard";
+  }
+
+  return next;
+}
 
 export async function login(formData: FormData) {
   const parsed = loginSchema.safeParse({
     email: formData.get("email"),
     password: formData.get("password"),
+    next: formData.get("next"),
   });
 
   if (!parsed.success) {
     const message = parsed.error.issues[0]?.message ?? "Invalid login details.";
 
+    const next = getSafeRedirectPath(formData.get("next")?.toString());
+
     redirect(
-      `/login?error=${encodeURIComponent("Unable to log in")}&message=${encodeURIComponent(message)}`,
+      `/login?error=${encodeURIComponent(
+        "Unable to log in",
+      )}&message=${encodeURIComponent(
+        message,
+      )}&next=${encodeURIComponent(next)}`,
     );
   }
 
-  const { email, password } = parsed.data;
+  const { email, password, next } = parsed.data;
+
+  const redirectPath = getSafeRedirectPath(next);
 
   const supabase = await createClient();
 
@@ -41,9 +60,13 @@ export async function login(formData: FormData) {
 
   if (error) {
     redirect(
-      `/login?error=${encodeURIComponent("Unable to log in")}&message=${encodeURIComponent(error.message)}`,
+      `/login?error=${encodeURIComponent(
+        "Unable to log in",
+      )}&message=${encodeURIComponent(
+        error.message,
+      )}&next=${encodeURIComponent(redirectPath)}`,
     );
   }
 
-  redirect("/dashboard");
+  redirect(redirectPath);
 }
