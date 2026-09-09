@@ -39,7 +39,7 @@ export function SignupForm({
                   <Input
                     id="first-name"
                     type="text"
-                    placeholder="John Doe"
+                    placeholder="John"
                     required
                   />
                 </Field>
@@ -49,7 +49,7 @@ export function SignupForm({
                   <Input
                     id="last-name"
                     type="text"
-                    placeholder="John Doe"
+                    placeholder="Doe"
                     required
                   />
                 </Field>
@@ -59,7 +59,7 @@ export function SignupForm({
                 <Input
                   id="email"
                   type="email"
-                  placeholder="m@example.com"
+                  placeholder="email@example.com"
                   required
                 />
               </Field>
