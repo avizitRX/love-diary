@@ -5,7 +5,7 @@ import { redirect } from "next/navigation";
 import { Button } from "@/components/ui/button";
 
 
-import { createClient } from "@/utils/supabase/server";
+import { createClient } from "@/lib/supabase/server";
 import { getMemories } from "@/lib/memories/queries";
 import { MemorySearch } from "../../../components/sweet-memories/memory-search";
 import { MemoryGrid } from "../../../components/sweet-memories/memory-grid";
@@ -29,7 +29,7 @@ export default async function MemoriesPage({
     await supabase.auth.getClaims();
 
   if (claimsError || !claimsData?.claims) {
-    redirect("/login"); // TODO: fix redirection
+    redirect("/login");
   }
 
   const userId = claimsData.claims.sub;

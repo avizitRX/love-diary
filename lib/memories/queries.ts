@@ -1,6 +1,6 @@
 import "server-only";
 
-import { createClient } from "@/utils/supabase/server";
+import { createClient } from "@/lib/supabase/server";
 import type { Memory, MemoryListResult } from "@/types/memory";
 
 import { memoryListSchema, type MemoryListInput } from "./schemas";
