@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import {
   CalendarHeart,
@@ -15,7 +15,10 @@ import {
   MoreHorizontal,
   Bell,
   Plus,
+  type LucideIcon,
 } from "lucide-react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 import {
   Sidebar,
@@ -25,42 +28,65 @@ import {
   SidebarMenu,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
-
-import { Button } from "../ui/button";
-import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
-
-import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
+import { Button } from "@/components/ui/button";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import { useIsMobile } from "@/hooks/use-mobile";
 
-const menuItems = [
+interface MenuItem {
+  label: string;
+  icon: LucideIcon;
+  link: string;
+}
+
+const menuItems: MenuItem[] = [
   {
     label: "Our Little World",
     icon: Home,
+    link: "/dashboard/our-little-world",
   },
   {
     label: "Sweet Memories",
     icon: Heart,
+    link: "/dashboard/sweet-memories",
   },
   {
     label: "Special Days",
     icon: CalendarHeart,
+    link: "/dashboard/special-days",
   },
   {
     label: "Our Love Story",
     icon: Clock3,
+    link: "/dashboard/our-love-story",
   },
   {
     label: "Couple Games",
     icon: Gamepad2,
+    link: "/dashboard/couple-games",
   },
   {
     label: "Private Notes",
     icon: NotebookPen,
+    link: "/dashboard/private-notes",
   },
+];
+
+const profileActions = [
+  { label: "Edit Profile", icon: UserRoundPen },
+  { label: "Settings", icon: Settings },
+  { label: "Our Relationship", icon: HeartHandshake },
+  { label: "Love Preferences", icon: MessageCircleHeart },
+  { label: "Customize Diary", icon: Sparkles },
 ];
 
 export function AppSidebar() {
   const isMobile = useIsMobile();
+  const pathname = usePathname();
 
   return (
     <Sidebar variant="inset" side={isMobile ? "right" : "left"}>
@@ -70,7 +96,6 @@ export function AppSidebar() {
           <div className="flex size-9 items-center justify-center rounded-full bg-primary/10">
             <Heart className="size-5 fill-primary text-primary" />
           </div>
-
           <div>
             <h1 className="font-semibold leading-none">Love Diary</h1>
             <p className="mt-1 text-xs text-muted-foreground">
@@ -83,26 +108,29 @@ export function AppSidebar() {
       {/* Navigation */}
       <SidebarContent>
         <SidebarMenu className="gap-1">
-          {menuItems.map((item, index) => {
+          {menuItems.map((item) => {
             const Icon = item.icon;
+            const isActive = pathname === item.link;
 
             return (
               <SidebarMenuItem key={item.label}>
-                <Button
-                  variant={index === 0 ? "default" : "ghost"}
-                  size="lg"
-                  className="w-full justify-start gap-3 px-3 text-left"
-                >
-                  <Icon className="size-5 shrink-0" />
-                  <span>{item.label}</span>
-                </Button>
+                <Link href={item.link}>
+                  <Button
+                    variant={isActive ? "default" : "ghost"}
+                    size="lg"
+                    className="w-full justify-start gap-3 px-3 text-left"
+                  >
+                    <Icon className="size-5 shrink-0" />
+                    <span>{item.label}</span>
+                  </Button>
+                </Link>
               </SidebarMenuItem>
             );
           })}
 
-          <SidebarMenuItem key="notifications" className="block md:hidden">
+          <SidebarMenuItem className="block md:hidden">
             <Button
-              variant= "ghost"
+              variant="ghost"
               size="lg"
               className="w-full justify-start gap-3 px-3 text-left"
             >
@@ -115,7 +143,7 @@ export function AppSidebar() {
 
       {/* Profile */}
       <SidebarFooter>
-        <Button variant={"outline"} size="lg" className="gap-2 md:hidden">
+        <Button variant="outline" size="lg" className="gap-2 md:hidden">
           <Plus className="size-5" />
           Add New
         </Button>
@@ -142,7 +170,6 @@ export function AppSidebar() {
 
                 <div className="min-w-0 flex-1">
                   <p className="truncate font-medium">Alex ♥️ Sarah</p>
-
                   <p className="text-xs text-muted-foreground">Edit Profile</p>
                 </div>
 
@@ -150,7 +177,7 @@ export function AppSidebar() {
               </PopoverTrigger>
 
               <PopoverContent side="right" align="end" className="w-64 p-2">
-                <div className="mb-1 px-2">
+                <div className="mb-1 px-2 py-1">
                   <p className="font-medium">Alex ♥️ Sarah</p>
                   <p className="text-xs text-muted-foreground">
                     Making memories together
@@ -158,45 +185,19 @@ export function AppSidebar() {
                 </div>
 
                 <div className="space-y-1">
-                  <Button
-                    variant="ghost"
-                    className="w-full justify-start gap-3"
-                  >
-                    <UserRoundPen className="size-4" />
-                    Edit Profile
-                  </Button>
-
-                  <Button
-                    variant="ghost"
-                    className="w-full justify-start gap-3"
-                  >
-                    <Settings className="size-4" />
-                    Settings
-                  </Button>
-
-                  <Button
-                    variant="ghost"
-                    className="w-full justify-start gap-3"
-                  >
-                    <HeartHandshake className="size-4" />
-                    Our Relationship
-                  </Button>
-
-                  <Button
-                    variant="ghost"
-                    className="w-full justify-start gap-3"
-                  >
-                    <MessageCircleHeart className="size-4" />
-                    Love Preferences
-                  </Button>
-
-                  <Button
-                    variant="ghost"
-                    className="w-full justify-start gap-3"
-                  >
-                    <Sparkles className="size-4" />
-                    Customize Diary
-                  </Button>
+                  {profileActions.map((action) => {
+                    const ActionIcon = action.icon;
+                    return (
+                      <Button
+                        key={action.label}
+                        variant="ghost"
+                        className="w-full justify-start gap-3"
+                      >
+                        <ActionIcon className="size-4" />
+                        {action.label}
+                      </Button>
+                    );
+                  })}
                 </div>
               </PopoverContent>
             </Popover>
