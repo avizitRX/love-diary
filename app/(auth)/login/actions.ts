@@ -2,32 +2,34 @@
 
 import { redirect } from "next/navigation";
 import { z } from "zod";
-
 import { createClient } from "@/lib/supabase/server";
 
-// Login
 const loginSchema = z.object({
-  email: z.string().trim().email("Please enter a valid email address."),
-
+  email: z.email("Please enter a valid email address."),
   password: z.string().min(1, "Please enter your password."),
-
-  next: z.string().optional(),
+  next: z
+    .string()
+    .nullable()
+    .optional()
+    .transform((val) => val || undefined),
 });
 
+export type ActionState = {
+  error?: string;
+  message?: string;
+} | null;
+
 function getSafeRedirectPath(next: string | undefined) {
-  if (!next) {
+  if (!next || !next.startsWith("/") || next.startsWith("//")) {
     return "/dashboard";
   }
-
-  // Only allow internal paths.
-  if (!next.startsWith("/") || next.startsWith("//")) {
-    return "/dashboard";
-  }
-
   return next;
 }
 
-export async function login(formData: FormData) {
+export async function login(
+  prevState: ActionState,
+  formData: FormData,
+): Promise<ActionState> {
   const parsed = loginSchema.safeParse({
     email: formData.get("email"),
     password: formData.get("password"),
@@ -35,47 +37,31 @@ export async function login(formData: FormData) {
   });
 
   if (!parsed.success) {
-    const message = parsed.error.issues[0]?.message ?? "Invalid login details.";
-
-    const next = getSafeRedirectPath(formData.get("next")?.toString());
-
-    redirect(
-      `/login?error=${encodeURIComponent(
-        "Unable to log in",
-      )}&message=${encodeURIComponent(
-        message,
-      )}&next=${encodeURIComponent(next)}`,
-    );
+    return {
+      error: "Validation error",
+      message:
+        parsed.error.issues[0]?.message ?? "Please check your input details.",
+    };
   }
 
   const { email, password, next } = parsed.data;
-
   const redirectPath = getSafeRedirectPath(next);
-
   const supabase = await createClient();
 
-  const { error } = await supabase.auth.signInWithPassword({
-    email,
-    password,
-  });
+  const { error } = await supabase.auth.signInWithPassword({ email, password });
 
   if (error) {
-    redirect(
-      `/login?error=${encodeURIComponent(
-        "Unable to log in",
-      )}&message=${encodeURIComponent(
-        error.message,
-      )}&next=${encodeURIComponent(redirectPath)}`,
-    );
+    return {
+      error: "Unable to log in",
+      message: error.message,
+    };
   }
 
   redirect(redirectPath);
 }
 
-// Logout
 export async function logout() {
   const supabase = await createClient();
   await supabase.auth.signOut();
-  
   redirect("/login");
 }
