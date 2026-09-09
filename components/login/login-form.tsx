@@ -23,6 +23,7 @@ import {
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import ComingSoonToast from "../toast/coming-soon-toast";
 
 type LoginFormProps = React.ComponentProps<"div"> & {
   next?: string;
@@ -63,6 +64,7 @@ export function LoginForm({ className, next, ...props }: LoginFormProps) {
                   type="button"
                   disabled={isPending}
                   className="w-full gap-2"
+                  onClick={() => ComingSoonToast()}
                 >
                   <AppleIcon />
                   Login with Apple
@@ -73,6 +75,7 @@ export function LoginForm({ className, next, ...props }: LoginFormProps) {
                   type="button"
                   disabled={isPending}
                   className="w-full gap-2"
+                  onClick={() => ComingSoonToast()}
                 >
                   <GoogleIcon />
                   Login with Google
@@ -99,6 +102,8 @@ export function LoginForm({ className, next, ...props }: LoginFormProps) {
               <Field>
                 <div className="flex items-center">
                   <FieldLabel htmlFor="password">Password</FieldLabel>
+
+                  {/* TODO: fix forget password */}
                   <Link
                     href={
                       next
