@@ -89,9 +89,9 @@ export default async function MemoriesPage({
           </div>
 
           <Button>
-            <Link href="/memories/new">
+            <Link href="/dashboard/sweet-memories/add-new">
               <Plus />
-              Add Memory
+              Add a Memory
             </Link>
           </Button>
         </div>

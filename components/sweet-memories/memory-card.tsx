@@ -33,16 +33,16 @@ export function MemoryCard({ memory }: MemoryCardProps) {
 
           <div className="flex items-center gap-1.5 text-sm text-muted-foreground">
             <CalendarDays className="size-3.5" />
-            <time dateTime={memory.event_date}>
-              {formatDate(memory.event_date)}
+            <time dateTime={memory.memory_date}>
+              {formatDate(memory.memory_date)}
             </time>
           </div>
 
-          {memory.content && (
+          {/* {memory.content && (
             <p className="line-clamp-2 text-sm text-muted-foreground">
               {memory.content}
             </p>
-          )}
+          )} */}
         </CardContent>
       </Card>
     </Link>

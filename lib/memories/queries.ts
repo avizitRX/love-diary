@@ -23,7 +23,7 @@ export async function getMemories(
         couple_id,
         title,
         content,
-        event_date,
+        memory_date,
         updated_by_user_id,
         created_at,
         updated_at
@@ -33,7 +33,7 @@ export async function getMemories(
       },
     )
     .eq("couple_id", parsed.coupleId)
-    .order("event_date", {
+    .order("memory_date", {
       ascending: false,
     })
     .order("created_at", {

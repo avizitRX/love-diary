@@ -3,7 +3,7 @@ export interface Memory {
   couple_id: string;
   title: string;
   content: string | null;
-  event_date: string;
+  memory_date: string;
   updated_by_user_id: string | null;
   created_at: string;
   updated_at: string;

@@ -6,7 +6,7 @@ import { z } from "zod";
 import { createClient } from "@/lib/supabase/server";
 
 const deleteMemorySchema = z.object({
-  id: z.string().uuid(),
+  id: z.uuid(),
 });
 
 export async function deleteMemoryAction(input: unknown) {
